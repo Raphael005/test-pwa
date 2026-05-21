@@ -8,15 +8,20 @@ if (!(globalThis as any).URLPattern) {
 
 import { Router } from '@thepassle/app-tools/router.js';
 import { lazy } from '@thepassle/app-tools/router/plugins/lazy.js';
-
-// @ts-ignore
-import { title } from '@thepassle/app-tools/router/plugins/title.js';
+import { appName } from '@thepassle/app-tools/router/plugins/appName.js';
+import { scrollToTop } from '@thepassle/app-tools/router/plugins/scrollToTop.js';
+import { resetFocus } from '@thepassle/app-tools/router/plugins/resetFocus.js';
 
 import './pages/app-home.js';
 
 const baseURL: string = (import.meta as any).env.BASE_URL;
 
 export const router = new Router({
+    plugins: [
+      appName('test-pwa'),
+      scrollToTop,
+      resetFocus,
+    ],
     routes: [
       {
         path: resolveRouterPath(),
@@ -33,6 +38,10 @@ export const router = new Router({
       }
     ]
   });
+
+  // This function will resolve a path with whatever Base URL was passed to the vite build process.
+  // Use of this function throughout the starter is not required, but highly recommended, especially if you plan to use GitHub Pages to deploy.
+  // If no arg is passed to this function, it will return the base URL.
 
   export function resolveRouterPath(unresolvedPath?: string) {
     var resolvedPath = baseURL;
